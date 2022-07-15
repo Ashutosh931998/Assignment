@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Assignment.Models;
+using System.Data.Entity;
 namespace Assignment.Controllers
 {
     public class EmployeeController : Controller
@@ -32,11 +33,28 @@ namespace Assignment.Controllers
         {
             return View(lstEmployeevalidation);
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             EmployeeValidation st = lstEmployeevalidation.FirstOrDefault(e => e.Name.Equals(id));
             return View(st);
         }
+        [HttpPost]
+        public ActionResult Edit(EmployeeValidation st)
+        {
+            EmployeeValidation lst = lstEmployeevalidation.FirstOrDefault(e => e.Name.Equals(st.Name));
+            lstEmployeevalidation.Remove(lst);
+            lstEmployeevalidation.Add(st);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete(string id)
+        {
+            EmployeeValidation st = lstEmployeevalidation.FirstOrDefault(e => e.Name.Equals(id));
+            lstEmployeevalidation.Remove(st);
+            return RedirectToAction("Index");
+
+        }
+
        
 	}
 }
